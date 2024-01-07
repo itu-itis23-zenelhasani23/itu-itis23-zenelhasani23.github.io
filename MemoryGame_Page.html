@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title> Memory Game </title>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    </head>
+
+    <body>
+
+        <div class="box">
+            <h1> Memory Game </h1>
+
+            <div class="game">
+                <div class="letter"> <img src="vector/upperI.svg"> </div>
+                <div class="letter"> <img src="vector/b.svg"> </div>
+                <div class="letter"> <img src="vector/r.svg"> </div>
+                <div class="letter"> <img src="vector/a.svg"> </div>
+                <div class="letter"> <img src="vector/h.svg"> </div>
+                <div class="letter"> <img src="vector/i.svg"> </div>
+                <div class="letter"> <img src="vector/m.svg"> </div>
+            </div>
+
+            <div class="score" id="score"> Score: 0 </div>
+
+            <div class="buttons"> 
+                <button class="button" onclick="startGame()"> Start Game </button>
+                <button class="button" onclick="resetGame()"> Restart Game </button> 
+            </div>
+
+        </div>
+
+        <script>
+            let name = "Ibrahim";
+            let nameCheck = " Ibrahim"
+            let seperated = name.split('');
+            let copy = [...seperated];
+            let score = 0
+            let checkString = " "
+            const gameContainer = document.getElementsByClassName("game")[0];
+    
+    
+            function shuffleArray(array) { 
+                return array.sort( ()=>Math.random()-0.5 );
+            } 
+    
+            function startGame() {
+                shuffleArray(copy)
+                gameContainer.innerHTML = '';
+                copy.forEach(cardCreation)
+                setTimeout(hide, 2000)
+            }
+    
+            function cardCreation(character, index) {
+                var divCreation = document.createElement('div');
+                divCreation.className = "letter"
+                divCreation.id = character
+                if(character === character.toUpperCase()) { 
+                    divCreation.innerHTML = '<img id="' + character + '" onclick="getIDandCheck(event)" src="vector\\upper' + character + '.svg">'
+                } else {
+                    divCreation.innerHTML = '<img id="' + character + '"  onclick="getIDandCheck(event)" src="vector\\' + character + '.svg">'
+                }
+                gameContainer.appendChild(divCreation);
+            }
+
+            function hide() {
+                document.getElementById("I").firstChild.style.opacity = 0
+                document.getElementById("b").firstChild.style.opacity = 0
+                document.getElementById("r").firstChild.style.opacity = 0
+                document.getElementById("a").firstChild.style.opacity = 0
+                document.getElementById("h").firstChild.style.opacity = 0
+                document.getElementById("i").firstChild.style.opacity = 0
+                document.getElementById("m").firstChild.style.opacity = 0
+            }
+    
+            function resetGame() {
+                gameContainer.innerHTML = '';
+                score = 0
+                document.getElementById("score").innerText = "Score: " + score.toString()
+            }
+            
+    
+            function getIDandCheck(e) {
+                tempDiv = document.getElementById(e.target.id)
+                document.getElementById(e.target.id).firstChild.onclick = ""
+                checkString += e.target.id
+                if (checkString === nameCheck) {
+                    document.getElementById(e.target.id).firstChild.style.opacity = 1
+                    tempDiv.style.backgroundColor = "green"
+                    score += 100
+                    document.getElementById("score").innerText = "Score: " + score.toString()
+                    checkString = " "
+                } else if (nameCheck.includes(checkString)) {
+                    document.getElementById(e.target.id).firstChild.style.opacity = 1
+                    tempDiv.style.backgroundColor = "green"
+                    score += 20
+                    document.getElementById("score").innerText = "Score: " + score.toString()
+                } else {
+                    document.getElementById(e.target.id).firstChild.style.opacity = 1
+                    tempDiv.style.backgroundColor = "red"
+                    document.getElementsByClassName("letter")[0].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[1].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[2].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[3].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[4].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[5].firstChild.onclick = ""
+                    document.getElementsByClassName("letter")[6].firstChild.onclick = ""
+                    alert("Game Over! Score: " + score)
+                }
+            }
+    
+    
+            
+    
+            </script>
+    </body>
+</html>
